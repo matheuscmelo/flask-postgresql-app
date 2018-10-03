@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
+from models import Guest
 
 database_uri = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
     dbuser=os.environ['DBUSER'],
@@ -27,7 +28,6 @@ migrate = Migrate(app, db)
 
 @app.route('/')
 def view_registered_guests():
-    from models import Guest
     guests = Guest.query.all()
     return render_template('guest_list.html', guests=guests)
 
@@ -39,7 +39,6 @@ def view_registration_form():
 
 @app.route('/register', methods=['POST'])
 def register_guest():
-    from models import Guest
     name = request.form.get('name')
     email = request.form.get('email')
 
